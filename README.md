@@ -4,3 +4,22 @@
 
 # Image_Labelling
 A labelling tool that displays satellite images and allows the user to graphically draw boxes that are converted into .txt label files for training ML algorithms
+
+
+## Installation
+Clone the repo and ensure you have gradle v8 and java v16 or higher installed.  Navigate to the directory and run:
+```
+gradle build
+```
+followed by
+```
+gradle run
+```
+
+## Use
+To select a single image, use the `Select Img` button,  `Select Dir` allows the user to select a directory and move through all `.jpg`,`.jpeg`, and `.png` using the arrow buttons.  Hold the `ctl` key and move the mouse to move the image use the `left click` to draw a box around vehicles. Once all vehicles have been selected, click `save` to write to file with the format:
+
+_x_position, y_position, width, height_
+
+where all values are in the range 0 to 1, where 0 is the top left corner of the image and 1 is the extremity of the image boundaries
+
