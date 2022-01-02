@@ -9,9 +9,11 @@ import java.util.ArrayList;
 public class Overlay
 {
     private ArrayList<Rectangle> rectangles;
+    private Rectangle size;
 
-    public Overlay()
+    public Overlay(Rectangle size)
     {
+        this.size = size;
         rectangles = new ArrayList<>();
     }
 
@@ -32,7 +34,15 @@ public class Overlay
             FileWriter writer = new FileWriter(file);
             for(Rectangle r: rectangles)
             {
-                writer.write(r.x + "," + r.y + "," + r.width +"," + r.height);
+                double x = (double) r.x/ (double) size.width;
+                double y = (double)r.y/ (double) size.height;
+                double w = (double)r.width/ (double) size.width;
+                double h = (double)r.height/ (double) size.height;
+
+                writer.write( x + ","
+                        + y + ","
+                        + w +","
+                        + h + "\n");
             }
             writer.close();
             return true;

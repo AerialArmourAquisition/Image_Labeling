@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class MainFrame extends JFrame
 {
@@ -21,7 +20,7 @@ public class MainFrame extends JFrame
     private BufferedImage image = null;
     private int imageIndex = 0;
     private boolean drawMode = false;
-    private Overlay overlay = new Overlay();
+    private Overlay overlay;
 
     public MainFrame()
     {
@@ -45,7 +44,15 @@ public class MainFrame extends JFrame
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.showOpenDialog(this);
         directory = fileChooser.getSelectedFile();
-        Collections.addAll(fileNames, directory.list());
+        for(String fileName: directory.list())
+        {
+            if(fileName.endsWith(".png") ||
+                    fileName.endsWith(".jpeg") ||
+                    fileName.endsWith(".jpg"))
+            {
+                fileNames.add(fileName);
+            }
+        }
         loadImage();
     }
 
@@ -54,10 +61,12 @@ public class MainFrame extends JFrame
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
         fileChooser.showOpenDialog(this);
+        Rectangle img_size = null;
         try
         {
             String filePath = fileChooser.getSelectedFile().getPath();
             image = ImageIO.read(new File(filePath));
+            img_size = new Rectangle(image.getMinX(), image.getMinY(), image.getWidth(), image.getHeight());
         }
         catch (IOException e)
         {
@@ -65,18 +74,21 @@ public class MainFrame extends JFrame
             e.printStackTrace();
             image = null;
         }
-        overlay = new Overlay();
+        overlay = new Overlay(img_size);
         canvas.setOverlay(overlay);
+        canvas.resetOffset();
         canvas.repaint();
     }
 
     public void loadImage()
     {
+        Rectangle img_size = null;
         try
         {
             String filePath = directory.getPath();
             String fileName = fileNames.get(imageIndex);
             image = ImageIO.read(new File(filePath + "/" + fileName));
+            img_size = new Rectangle(0, 0, image.getWidth(), image.getHeight());
         }
         catch (IOException e)
         {
@@ -84,8 +96,9 @@ public class MainFrame extends JFrame
             e.printStackTrace();
             image = null;
         }
-        overlay = new Overlay();
+        overlay = new Overlay(img_size);
         canvas.setOverlay(overlay);
+        canvas.resetOffset();
         canvas.repaint();
     }
 
@@ -108,9 +121,21 @@ public class MainFrame extends JFrame
         loadImage();
     }
 
-    public void toggleDrawMode()
+    public void save()
     {
-        drawMode  = !drawMode;
+        String fileName = fileNames.get(imageIndex);
+        int endIndex = fileName.length();
+        for(int i = fileName.length()-1; i >= 0; i--)
+        {
+            if(fileName.charAt(i) == '.')
+            {
+                endIndex = i;
+                break;
+            }
+        }
+        fileName = fileName.substring(0, endIndex);
+        overlay.writeToFile(directory + "/" + fileName + ".lbl");
+        nextImage();
     }
 
     public ArrayList<Rectangle> getOverlay()

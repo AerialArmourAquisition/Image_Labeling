@@ -29,9 +29,9 @@ public class Menu extends JPanel
         next_img.addActionListener(e -> mainFrame.nextImage());
         add(next_img);
 
-        JToggleButton draw = new JToggleButton("Draw Mode");
-        draw.addActionListener(e -> mainFrame.toggleDrawMode());
-        add(draw);
+        JButton save = new JButton("Save");
+        save.addActionListener(e -> mainFrame.save());
+        add(save);
 
         setVisible(true);
     }
