@@ -1,3 +1,7 @@
+package view;
+
+import model.Overlay;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -7,17 +11,19 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class App extends JFrame
+public class MainFrame extends JFrame
 {
-    private Display display = new Display(this);
+    private Canvas canvas = new Canvas(this);
     private Menu menu = new Menu(this);
 
     private File directory = new File("");
     private ArrayList<String> fileNames = new ArrayList<>();
-    private int imageIndex = 0;
     private BufferedImage image = null;
+    private int imageIndex = 0;
+    private boolean drawMode = false;
+    private Overlay overlay = new Overlay();
 
-    public App()
+    public MainFrame()
     {
         build();
     }
@@ -29,7 +35,7 @@ public class App extends JFrame
         setLayout(new BorderLayout());
 
         add(BorderLayout.NORTH, menu);
-        add(BorderLayout.CENTER, display);
+        add(BorderLayout.CENTER, canvas);
         setVisible(true);
     }
 
@@ -59,7 +65,9 @@ public class App extends JFrame
             e.printStackTrace();
             image = null;
         }
-        display.repaint();
+        overlay = new Overlay();
+        canvas.setOverlay(overlay);
+        canvas.repaint();
     }
 
     public void loadImage()
@@ -76,7 +84,9 @@ public class App extends JFrame
             e.printStackTrace();
             image = null;
         }
-        display.repaint();
+        overlay = new Overlay();
+        canvas.setOverlay(overlay);
+        canvas.repaint();
     }
 
     public java.awt.image.BufferedImage getImage()
@@ -96,5 +106,15 @@ public class App extends JFrame
         if(imageIndex-1 >= 0)
             imageIndex--;
         loadImage();
+    }
+
+    public void toggleDrawMode()
+    {
+        drawMode  = !drawMode;
+    }
+
+    public ArrayList<Rectangle> getOverlay()
+    {
+        return overlay.getRectangles();
     }
 }
