@@ -1,4 +1,5 @@
-![workflow](https://github.com/AerialArmourAquisition/Image_Labeling/actions/workflows/linux.yml/badge.svg)
+![workflow](https://github.com/AerialArmourAquisition/Image_Labeling/actions/workflows/linux_JDK_11.yml/badge.svg)
+![workflow](https://github.com/AerialArmourAquisition/Image_Labeling/actions/workflows/linux_JDK_15.yml/badge.svg)
 ![workflow](https://github.com/AerialArmourAquisition/Image_Labeling/actions/workflows/linux_JDK_16.yml/badge.svg)
 
 # Image_Labeling
