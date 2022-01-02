@@ -7,7 +7,7 @@ A labelling tool that displays satellite images and allows the user to graphical
 
 
 ## Installation
-Clone the repo and ensure you have gradle v8 and java v16 or higher installed.  Navigate to the directory and run:
+Clone the repo and ensure you have Gradle vesrion 8.0 and Java version 16 installed.  Navigate to the directory and run:
 ```
 gradle build
 ```
@@ -23,3 +23,4 @@ _x_position, y_position, width, height_
 
 where all values are in the range 0 to 1, where 0 is the top left corner of the image and 1 is the extremity of the image boundaries
 
+![screenshot](https://github.com/AerialArmourAquisition/Image_Labelling/blob/master/screenshots/Screenshot%20from%202022-01-02%2022-38-44.png)
